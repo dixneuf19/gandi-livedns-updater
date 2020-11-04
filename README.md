@@ -1,0 +1,1 @@
+# Gandi LiveDNS updater

@@ -1,0 +1,13 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: gandi-livedns-updater
+spec:
+  template:
+    spec:
+      containers:
+      - name: gandi-livedns-updater
+        image: dixneuf19/gandi-livedns-updater:v1
+      restartPolicy: Never
+  backoffLimit: 4
+
