@@ -3,7 +3,7 @@ name: Build and release
 on:
   push:
     branches:
-      - master
+      - main
 
 env:
   DOCKER_REPOSITORY: dixneuf19
