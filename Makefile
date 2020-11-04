@@ -19,3 +19,6 @@ deploy:
 
 delete:
 	kubectl delete -f gandi-livedns-updater.yaml
+
+secret:
+	kubectl create secret generic ${APP_NAME} --from-env-file=.env

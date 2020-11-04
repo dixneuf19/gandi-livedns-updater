@@ -1,13 +1,26 @@
-apiVersion: batch/v1
-kind: Job
+apiVersion: batch/v1beta1
+kind: CronJob
 metadata:
   name: gandi-livedns-updater
 spec:
-  template:
+  schedule: "*/5 * * * *"
+  jobTemplate:
     spec:
-      containers:
-      - name: gandi-livedns-updater
-        image: dixneuf19/gandi-livedns-updater:v1
-      restartPolicy: Never
-  backoffLimit: 4
+      template:
+        spec:
+          containers:
+          - name: gandi-livedns-updater
+            image: dixneuf19/gandi-livedns-updater:v1
+            env:
+            - name: GANDI_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: GANDI_API_KEY
+                  name: gandi-livedns-updater
+            - name: GANDI_DOMAIN
+              value: dixneuf19.me
+            - name: GANDI_SUBDOMAIN
+              value: brassberry
+          restartPolicy: Never
+      backoffLimit: 3
 
