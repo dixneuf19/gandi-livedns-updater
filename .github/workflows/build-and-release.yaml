@@ -33,28 +33,18 @@ jobs:
       - name: Available platforms
         run: echo ${{ steps.buildx.outputs.platforms }}
 
-      # Build the images
-      - name: Build docker
-        uses: docker/build-push-action@v2
-        with:
-          push: false
-          tags: ${{ env.DOCKER_REPOSITORY }}/${{ env.IMAGE_NAME }}:${{ env.DOCKER_TAG }}
-          platforms: ${{ env.TARGET_PLATFORMS }}
-          # cache-from: type=local,src=/tmp/.buildx-cache
-          # cache-to: type=local,dest=/tmp/.buildx-cache
-
       - name: Login to DockerHub
         uses: docker/login-action@v1
         with:
           username: ${{ env.DOCKER_REPOSITORY }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      # Push the images
-      - name: Push docker images
+      # Build the images
+      - name: Build and push docker
         uses: docker/build-push-action@v2
         with:
           push: true
           tags: ${{ env.DOCKER_REPOSITORY }}/${{ env.IMAGE_NAME }}:${{ env.DOCKER_TAG }}
           platforms: ${{ env.TARGET_PLATFORMS }}
-          cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache
+          # cache-from: type=local,src=/tmp/.buildx-cache
+          # cache-to: type=local,dest=/tmp/.buildx-cache
